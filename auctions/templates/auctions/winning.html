@@ -1,0 +1,17 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Winning Listing</h2>
+<!-- {{win_listing.titleList}}  -->
+<div class="container-fluid">
+  <ul class="list-group">
+  <li class="list-group-item active" aria-current="true"> <h1> {{win_listing.titleList}} </h1></li>
+  <li class="list-group-item">Winning Bid:<strong> ${{win_price}}</strong> 
+  </li>
+    <li class="list-group-item">Winner:<strong> {{win_user.username}}</strong> 
+    
+  </li>
+  </ul>
+  </div>
+
+{% endblock %}

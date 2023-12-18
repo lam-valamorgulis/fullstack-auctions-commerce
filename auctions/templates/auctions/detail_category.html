@@ -1,0 +1,38 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<!-- {{get_category}} -->
+
+  <ol class="list-group list-group-numbered"> 
+     {% for category in get_category %}
+          <div class="container-lg">
+        <div class="row">
+          <div class="col-4">   
+            <img src="{{ category.category.url }}" alt="" class="rounded" style='height: 100%; width: 100%'>
+          </div>
+          <div class="col-8">
+            <div class="card">
+              <h1 class="card-header">
+                {{category.category.titleList}}
+              </h1>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Description:</strong> {{category.category_item.description}}</li>
+                <li class="list-group-item"><strong>Current Bid:</strong> {{category.category_item.price}}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    <hr>
+    {% endfor %}
+    
+     {% if message %}
+       <div class="alert alert-danger" role="alert">
+        {{ message }}
+        </div>
+    {% endif %}
+
+    
+   
+  </ol>
+{% endblock %}

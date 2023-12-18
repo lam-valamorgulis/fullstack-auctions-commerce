@@ -1,0 +1,17 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<!-- {{all_categories}} -->
+
+    <h2>All categories</h2>
+
+<div class="container-fluid">
+  <div class="row align-items-start">
+  <ul class="list-group">
+    {% for item in all_categories%}
+    <li class="list-group-item"> <a href="{% url 'detail_category' item.category %}"> {{item.category}} </a></li>
+    {% endfor %}
+  </ul>    
+  </div>
+</div>
+{% endblock %}

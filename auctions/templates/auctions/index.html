@@ -1,0 +1,23 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Active Listings</h2>
+<div class="container-fluid">
+  <div class="row align-items-start border border-2 border-secondary">
+    {% for list in all_Listings %}
+    <div class="col-3">
+      <div class="card-body" style="width: 18rem;">
+        <div class="container">  
+          {% if list.url %}
+        <img src= '{{list.url}}' class="card-img-top" alt="CS50">
+          {% endif %}
+        </div>    
+        <a class="card-title" href="{% url 'listing'  list.id%}"> {{list.titleList}}</a>
+        <p class="card-text">Starting: <strong> ${{list.price}} </strong></p>
+        <p class="card-text">{{list.description}}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

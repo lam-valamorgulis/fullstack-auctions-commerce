@@ -1,0 +1,21 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Winning Lists</h2>
+
+<!-- {{all_winning_list}} -->
+
+<div class="container-fluid">
+  <ul class="list-group">
+    {% for winning_item in all_winning_list%}
+    <li class="list-group-item active" aria-current="true"> <h1> {{winning_item.bid_item_pk.titleList}} </h1></li>
+    <li class="list-group-item">Winning Bid:<strong> ${{winning_item.bidPrice}}</strong> 
+      
+    </li>
+      <li class="list-group-item">Winner: <strong>{{winning_item.bid_user_pk.username}} (You) </strong> 
+      
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

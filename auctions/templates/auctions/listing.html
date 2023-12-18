@@ -1,0 +1,107 @@
+{% extends "auctions/layout.html" %}
+{% load tz %}
+
+{% block body %}
+ {% if message %}
+    <div class="alert alert-danger" role="alert">
+      {{ message }}
+    </div>
+    {% endif %}
+
+
+    <div class="container-lg">
+      <div class="row">
+        <div class="col-4">   
+          <img src="{{listing.url}}" alt="" class="rounded" style='height: 100%; width: 100%'>
+        </div>
+        <div class="col-8">
+          <div class="card">
+            <h1 class="card-header">
+              {{listing.titleList}}
+            </h1>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">Description: <strong>{{listing.description}} </strong></li>
+              <li class="list-group-item">Current Bid: 
+                <h4 class="alert alert-info" style="display:inline">$ {{listing.price}} </h4>
+              </li>
+            </ul>
+          </div>
+          <p class="container-lg"></p>
+
+<!--           add to watch list form -->
+          <form action="{% url 'listing' listing.id %}" method="post">
+            {% csrf_token %}
+          {% if addToWatchList and user.is_authenticated and is_owner_bid != True %}
+              <input type="hidden" name="cart_id" value= '{{ cart_id }}'>
+              <input type="submit" class="btn btn-primary" name="remove_watch_list" value="Remove from watchlist">
+          {% elif  user.is_authenticated and is_owner_bid != True %}
+              <input type="hidden" name="cart_id" value= "{{ cart_id }}">
+              <input type="submit" class="btn btn-primary" name="add_watch_list" value="Add to watchlist">
+          {% endif %}
+          </form> 
+
+<!--           bidding form  -->
+          <p class="container-lg"></p>
+<!--           if user is not the ower of listing show place bid button-->
+          {% if not is_owner_bid and user.is_authenticated%}
+              <form action="{% url 'listing' listing.id %}" method="post">
+            {% csrf_token %}
+          <div class="row g-3">
+            <div class="col-2">
+              <input type="number" step="any" min="1" name="place_bid" class="form-control">  
+            </div>
+            <button type="submit" class="btn btn-warning">Place bid</button>
+          </div>
+          </form> 
+
+<!--           if user owner of listing dont show place bid and show close bid button-->
+          {% endif %}
+          <p class="container-lg"></p>
+          {% if is_owner_bid %}
+              <form action= "{% url 'closebid' listing.id%}" method = "post">
+            {% csrf_token %}
+          <div class="row g-3">
+            <div class="col-2">
+            <input type="submit" class="btn btn-danger" name="close_bid" value="Close bid">
+          </div>
+            </div>
+          </form> 
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+<!--     ----- Comment section -------- -->
+  <p class="container-lg"></p>
+    {% if user.is_authenticated %}
+    <form action= "{% url 'listing' listing.id %}" method = "post">
+      {% csrf_token %}
+      <div class="container-lg">
+        <div class="mb-3">
+          <strong class="form-label"> Write Your comment</strong>
+          <p class="container-lg"></p>
+  <textarea type="text" name= "comment" class="form-control" rows="3"></textarea>
+          <p class="container-lg"></p>
+          <button type="submit" class="btn btn-primary mb-3">Comment</button>
+      </div>
+    </form> 
+    {% endif %}
+
+<!-- SHOW COMMENT -->
+
+<ul class="list-group list-group-numbered">
+  {% for comment in all_comment %}
+      <div class="list-group-item list-group-item-action">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">{{ comment.comment_user.username }}</h5>
+    </div>
+    <p class="mb-1">{{ comment.comment }}</p>
+    <small class="text-muted">{{ comment.date_time }}</small>
+  </div>
+    </li>
+  {% endfor %}
+
+</ul>
+</div> 
+
+{% endblock %}

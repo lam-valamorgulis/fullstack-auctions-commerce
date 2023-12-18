@@ -1,0 +1,40 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+<h2>Watch Lists</h2>
+
+
+<ol class="list-group list-group-numbered"> 
+   {% for listing in watch_list_items %}
+      <div class="container-lg">
+      <div class="row">
+        <div class="col-4">   
+          <img src="{{ listing.url }}" alt="" class="rounded" style='height: 100%; width: 100%'>
+        </div>
+        <div class="col-8">
+
+          <div class="card">
+            <h1 class="card-header">
+              {{listing.titleList}}
+            </h1>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><strong>Description:</strong> {{listing.description}}</li>
+              <li class="list-group-item"><strong>Current Bid:</strong> {{listing.price}}</li>
+            </ul>
+          </div>
+          <p class="container-lg"></p>
+          
+          <form action="{% url 'watch_list' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" value= {{listing.id}} name="remove_id">
+            <input type="submit" class="btn btn-primary" value="Remove from watchlist">
+          </form> 
+        </div>
+      </div>
+    </div>
+  <hr>
+  {% endfor %}
+</ol>
+
+{% endblock %}
